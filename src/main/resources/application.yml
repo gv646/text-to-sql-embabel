@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: text-to-sql-agent
+  
+  # MySQL Configuration
+  datasource:
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/your_database_name?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DATABASE_USERNAME:root}
+    password: ${DATABASE_PASSWORD:your_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+server:
+  port: 8080
+
+# Embabel Configuration
+embabel:
+  agent:
+    # Enable web mode for REST API
+    mode: web
+    
+    # Logging theme (optional - star-wars, mandalorian, or vanilla)
+    logging:
+      theme: star-wars
+    
+    # Planning configuration
+    planning:
+      max-iterations: 10
+      cost-threshold: 100
+
+# LLM Configuration - Using Ollama (Local, Free)
+spring.ai:
+  ollama:
+    base-url: http://localhost:11434
+    chat:
+      options:
+        model: llama3.1
+        temperature: 0.1
+
+# Query constraints
+texttosql:
+  max-rows: 500
+  timeout-seconds: 30
+  allowed-operations:
+    - SELECT
+  blocked-keywords:
+    - DROP
+    - DELETE
+    - INSERT
+    - UPDATE
+    - TRUNCATE
+    - ALTER
+    - CREATE
+    - GRANT
+    - REVOKE
+
+# Logging
+logging:
+  level:
+    com.texttosql: DEBUG
+    com.embabel: INFO
+    org.springframework.jdbc: DEBUG
