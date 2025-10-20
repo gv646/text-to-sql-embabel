@@ -1,4 +1,4 @@
-package com.texttosql.text_to_sql_agent;
+package com.texttosql;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
