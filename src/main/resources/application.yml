@@ -27,6 +27,13 @@ embabel:
       max-iterations: 10
       cost-threshold: 100
 
+embabel:
+  models:
+    # Fast model for quick table identification
+    fast-llm: llama3.1
+    # Powerful model for precise SQL generation (can be same model with different temp)
+    powerful-llm: llama3.1
+
 # LLM Configuration - Using Ollama (Local, Free)
 spring.ai:
   ollama:
