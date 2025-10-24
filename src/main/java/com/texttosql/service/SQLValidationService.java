@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.texttosql.config.QueryConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
