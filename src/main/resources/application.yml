@@ -1,12 +1,16 @@
 spring:
   application:
     name: text-to-sql-agent
+  profiles:
+    active: ollama
+  main:
+    allow-bean-definition-overriding: true
   
   # MySQL Configuration
   datasource:
-    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/your_database_name?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
-    username: ${DATABASE_USERNAME:root}
-    password: ${DATABASE_PASSWORD:your_password}
+    url: ${DATABASE_URL:jdbc:mysql://localhost:3306/testdb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DATABASE_USERNAME:texttosql}
+    password: ${DATABASE_PASSWORD:SecurePassword123!}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:
@@ -26,22 +30,20 @@ embabel:
     planning:
       max-iterations: 10
       cost-threshold: 100
-
-embabel:
+  
+  
+  # FIXED: Must use "ollama:" prefix for Embabel native Ollama
   models:
-    # Fast model for quick table identification
-    fast-llm: llama3.1
-    # Powerful model for precise SQL generation (can be same model with different temp)
-    powerful-llm: llama3.1
-
-# LLM Configuration - Using Ollama (Local, Free)
-spring.ai:
+    # default-llm: llama3.1:latest
+    default-llm: gemma2:2b
+  
+  # Embabel native Ollama configuration
   ollama:
     base-url: http://localhost:11434
-    chat:
-      options:
-        model: llama3.1
-        temperature: 0.1
+  
+  llm-operations:
+    data-binding:
+      maxAttempts: 3
 
 # Query constraints
 texttosql:
@@ -60,9 +62,28 @@ texttosql:
     - GRANT
     - REVOKE
 
+# Swagger/OpenAPI configuration
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+    display-request-duration: true
+    default-models-expand-depth: 1
+    default-model-expand-depth: 1
+
+
 # Logging
 logging:
   level:
     com.texttosql: DEBUG
     com.embabel: INFO
-    org.springframework.jdbc: DEBUG
+    org.springframework.ai: DEBUG
+    org.springdoc: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
