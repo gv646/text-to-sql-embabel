@@ -76,6 +76,8 @@ springdoc:
     display-request-duration: true
     default-models-expand-depth: 1
     default-model-expand-depth: 1
+  # Only scan your controller package to exclude Embabel endpoints
+  packages-to-scan: com.texttosql.controller
 
 
 # Logging
